@@ -22,8 +22,8 @@ class CompetitorScraper:
         })
         
         # Tyler's target times and current performance
-        self.tyler_pr = 45.85
-        self.tyler_recent_avg = 47.95
+        self.tyler_pr = 45.24  # CORRECTED: Tyler's actual current PR
+        self.tyler_recent_avg = 48.00  # Currently averaging around 48s
         
         # Search ranges for competitors
         self.time_ranges = {

@@ -684,7 +684,8 @@
         // Initialize Calendar
         document.addEventListener('DOMContentLoaded', function() {
             const calendarEl = document.getElementById('trainingCalendar');
-            const calendar = new FullCalendar.Calendar(calendarEl, {
+            if (calendarEl && typeof FullCalendar !== 'undefined') {
+                const calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 headerToolbar: {
                     left: 'prev,next today',
@@ -710,6 +711,9 @@
                 ]
             });
             calendar.render();
+            } else {
+                console.warn('FullCalendar not loaded or calendar element not found');
+            }
         });
 
         // Refresh Rankings Function

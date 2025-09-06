@@ -16,10 +16,10 @@ class PerformancePredictor:
         # Tyler's current stats (updated with real data)
         self.current_stats = {
             '300m_hurdles': {
-                'pr': 45.85,
-                'recent_avg': 47.95,
-                'progression': [48.30, 47.12, 46.45, 45.85],  # Season progression
-                'consistency_variance': 2.1  # Standard deviation of recent times
+                'pr': 45.24,  # CORRECTED: Tyler's actual current PR
+                'recent_avg': 48.00,  # Currently averaging around 48s
+                'progression': [48.41, 47.92, 47.15, 46.48, 45.24],  # Season progression
+                'consistency_variance': 2.8  # Standard deviation of recent times (working back to PR form)
             },
             '110m_hurdles': {
                 'pr': 18.95,
