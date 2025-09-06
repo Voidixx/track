@@ -587,10 +587,8 @@ def training_log():
                          total_planned=total_planned,
                          avg_difficulty=round(avg_difficulty, 1))
 
-# Auto-sync Tyler's Athletic.net data on startup
-@app.before_first_request
-def initialize_athletic_data():
-    """Initialize Tyler's athletic data from Athletic.net/MileSplit"""
+# Auto-sync Tyler's Athletic.net data on startup (using app context)
+with app.app_context():
     try:
         athletic_service.sync_to_database()
         logging.info("Successfully initialized athletic data from Athletic.net")
