@@ -96,3 +96,53 @@ class Goal(db.Model):
     category = db.Column(db.String(50))  # short-term, season, annual, career
     notes = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+class CompetitorProfile(db.Model):
+    """Competitor profiles from Athletic.net and MileSplit"""
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    school = db.Column(db.String(100), nullable=False)
+    grade = db.Column(db.Integer)
+    athletic_net_id = db.Column(db.String(20))
+    milesplit_id = db.Column(db.String(20))
+    region = db.Column(db.String(50))  # District 10, Northwestern PA, etc.
+    competitive_threat_level = db.Column(db.String(20))  # high_threat, moderate_threat, etc.
+    improvement_trajectory = db.Column(db.String(30))
+    last_updated = db.Column(db.DateTime, default=datetime.utcnow)
+    notes = db.Column(db.Text)
+
+
+class CompetitorPerformance(db.Model):
+    """Individual performance records for competitors"""
+    id = db.Column(db.Integer, primary_key=True)
+    competitor_id = db.Column(db.Integer, db.ForeignKey('competitor_profile.id'), nullable=False)
+    event = db.Column(db.String(50), nullable=False)
+    time_seconds = db.Column(db.Float, nullable=False)
+    meet_name = db.Column(db.String(100))
+    date_achieved = db.Column(db.Date, nullable=False)
+    is_pr = db.Column(db.Boolean, default=False)
+    is_season_best = db.Column(db.Boolean, default=False)
+    place = db.Column(db.Integer)
+    conditions = db.Column(db.String(100))
+    notes = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    # Relationship
+    competitor = db.relationship('CompetitorProfile', backref='performances')
+
+
+class MeetSchedule(db.Model):
+    """Regional meet schedule and events"""
+    id = db.Column(db.Integer, primary_key=True)
+    meet_name = db.Column(db.String(100), nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    location = db.Column(db.String(100), nullable=False)
+    importance = db.Column(db.String(50))  # District Championship, State, etc.
+    tyler_qualified = db.Column(db.Boolean, default=False)
+    qualification_standards = db.Column(db.Text)  # JSON format
+    key_competitors = db.Column(db.Text)  # JSON format
+    strategic_importance = db.Column(db.Integer, default=5)  # 1-10 scale
+    preparation_status = db.Column(db.String(30))
+    notes = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
