@@ -2,7 +2,7 @@ modules = ["python-3.11"]
 
 [nix]
 channel = "stable-25_05"
-packages = ["openssl", "postgresql"]
+packages = ["freetype", "glibcLocales", "lcms2", "libimagequant", "libjpeg", "libtiff", "libwebp", "libxcrypt", "openjpeg", "openssl", "postgresql", "tcl", "tk", "xcodebuild", "zlib"]
 
 [deployment]
 deploymentTarget = "autoscale"
@@ -34,4 +34,4 @@ localPort = 5000
 externalPort = 80
 
 [agent]
-integrations = ["python_database==1.0.0"]
+integrations = ["python_database==1.0.0", "web_scraper==1.0.0"]

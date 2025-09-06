@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Records - Tyler's Training Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('dashboard') }}">🏃 Tyler's Training Hub</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('log_workout') }}">Log Workout</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('training_log') }}">Training Log</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('personal_records') }}">Personal Records</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('video_analysis') }}">Video Analysis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('coach_communication') }}">Coach Messages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('statistics') }}">Statistics</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1 class="text-center mb-4"><i class="fas fa-trophy"></i> Personal Records</h1>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="row">
+            <!-- Best Times Summary -->
+            <div class="col-md-12 mb-4">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h3><i class="fas fa-medal"></i> Current Personal Bests</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if best_times %}
+                            <div class="row">
+                                {% for event, record in best_times.items() %}
+                                <div class="col-md-4 mb-3">
+                                    <div class="text-center p-3 border rounded">
+                                        <h5 class="text-primary">{{ event }}</h5>
+                                        <h3 class="text-success">{{ "%.2f"|format(record.time_seconds) }}s</h3>
+                                        <small class="text-muted">{{ record.date_achieved.strftime('%B %d, %Y') }}</small>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-center text-muted">No personal records recorded yet. Add your first time below!</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add New Record Form -->
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-plus"></i> Add New Personal Record</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            <div class="mb-3">
+                                <label for="event" class="form-label">Event:</label>
+                                <select class="form-select" id="event" name="event" required>
+                                    <option value="">Select Event</option>
+                                    <option value="300m Hurdles">300m Hurdles</option>
+                                    <option value="110m Hurdles">110m Hurdles</option>
+                                    <option value="100m">100m</option>
+                                    <option value="200m">200m</option>
+                                    <option value="400m">400m</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="time" class="form-label">Time:</label>
+                                <input type="text" class="form-control" id="time" name="time" 
+                                       placeholder="47.25 or 0:47.25" required>
+                                <small class="text-muted">Format: seconds (47.25) or minutes:seconds (0:47.25)</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="date" class="form-label">Date Achieved:</label>
+                                <input type="date" class="form-control" id="date" name="date" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="meet_name" class="form-label">Meet/Competition:</label>
+                                <input type="text" class="form-control" id="meet_name" name="meet_name" 
+                                       placeholder="UCASD Invitational, Practice, etc.">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="conditions" class="form-label">Conditions:</label>
+                                <input type="text" class="form-control" id="conditions" name="conditions" 
+                                       placeholder="Wind, temperature, track surface, etc.">
+                            </div>
+
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="is_official" name="is_official" checked>
+                                <label class="form-check-label" for="is_official">
+                                    Official Competition (uncheck if practice time)
+                                </label>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="notes" class="form-label">Notes:</label>
+                                <textarea class="form-control" id="notes" name="notes" rows="3" 
+                                          placeholder="How did you feel? What worked well? Areas to improve?"></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Add Record
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Records History -->
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-history"></i> All Records History</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if records %}
+                            <div style="max-height: 400px; overflow-y: auto;">
+                                {% for record in records %}
+                                <div class="border-bottom pb-2 mb-2">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <strong class="text-primary">{{ record.event }}</strong>
+                                            <h5 class="text-success mb-1">{{ "%.2f"|format(record.time_seconds) }}s</h5>
+                                            <small class="text-muted">
+                                                {{ record.date_achieved.strftime('%b %d, %Y') }}
+                                                {% if record.meet_name %}
+                                                    • {{ record.meet_name }}
+                                                {% endif %}
+                                                {% if not record.is_official %}
+                                                    • <span class="badge bg-secondary">Practice</span>
+                                                {% endif %}
+                                            </small>
+                                            {% if record.notes %}
+                                                <p class="small text-muted mt-1 mb-0">{{ record.notes }}</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-muted text-center">No records yet. Add your first time!</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

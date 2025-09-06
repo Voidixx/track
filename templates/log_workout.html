@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Workout - Tyler's Training Hub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('dashboard') }}">🏃 Tyler's Training Hub</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('log_workout') }}">Log Workout</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('training_log') }}">Training Log</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('personal_records') }}">Personal Records</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('video_analysis') }}">Video Analysis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('coach_communication') }}">Coach Messages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('statistics') }}">Statistics</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1 class="text-center mb-4"><i class="fas fa-clipboard-check"></i> Log Today's Workout</h1>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <!-- Today's Planned Workout -->
+                <div class="card workout-card mb-4">
+                    <div class="card-header">
+                        <h3><i class="fas fa-calendar-day"></i> Today's Planned Workout</h3>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="text-primary">{{ daily_workout.focus }}</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-sun"></i> Outdoor Workout:</h6>
+                                <p class="small">{{ daily_workout.outdoor_workout }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6><i class="fas fa-home"></i> Indoor Alternative:</h6>
+                                <p class="small">{{ daily_workout.indoor_workout }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Workout Log Form -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-edit"></i> Log Your Workout</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            <!-- Completion Status -->
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="completed" name="completed" 
+                                       {{ 'checked' if today_log and today_log.completed }}>
+                                <label class="form-check-label" for="completed">
+                                    <strong>I completed today's workout</strong>
+                                </label>
+                            </div>
+
+                            <!-- Difficulty Rating -->
+                            <div class="mb-3">
+                                <label for="difficulty_rating" class="form-label">
+                                    <i class="fas fa-chart-line"></i> Difficulty Level (1-5):
+                                </label>
+                                <select class="form-select" id="difficulty_rating" name="difficulty_rating">
+                                    <option value="1" {{ 'selected' if today_log and today_log.difficulty_rating == 1 }}>1 - Very Easy</option>
+                                    <option value="2" {{ 'selected' if today_log and today_log.difficulty_rating == 2 }}>2 - Easy</option>
+                                    <option value="3" {{ 'selected' if today_log and today_log.difficulty_rating == 3 else 'selected' if not today_log }}>3 - Moderate</option>
+                                    <option value="4" {{ 'selected' if today_log and today_log.difficulty_rating == 4 }}>4 - Hard</option>
+                                    <option value="5" {{ 'selected' if today_log and today_log.difficulty_rating == 5 }}>5 - Very Hard</option>
+                                </select>
+                            </div>
+
+                            <!-- Energy Level -->
+                            <div class="mb-3">
+                                <label for="energy_level" class="form-label">
+                                    <i class="fas fa-battery-three-quarters"></i> Energy Level Before Workout (1-5):
+                                </label>
+                                <select class="form-select" id="energy_level" name="energy_level">
+                                    <option value="1" {{ 'selected' if today_log and today_log.energy_level == 1 }}>1 - Very Low</option>
+                                    <option value="2" {{ 'selected' if today_log and today_log.energy_level == 2 }}>2 - Low</option>
+                                    <option value="3" {{ 'selected' if today_log and today_log.energy_level == 3 else 'selected' if not today_log }}>3 - Moderate</option>
+                                    <option value="4" {{ 'selected' if today_log and today_log.energy_level == 4 }}>4 - High</option>
+                                    <option value="5" {{ 'selected' if today_log and today_log.energy_level == 5 }}>5 - Very High</option>
+                                </select>
+                            </div>
+
+                            <!-- Notes -->
+                            <div class="mb-3">
+                                <label for="notes" class="form-label">
+                                    <i class="fas fa-sticky-note"></i> Workout Notes:
+                                </label>
+                                <textarea class="form-control" id="notes" name="notes" rows="4" 
+                                          placeholder="How did the workout feel? Any observations about technique, times, or improvements?">{{ today_log.notes if today_log else '' }}</textarea>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Save Workout Log
+                                </button>
+                                <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+                                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

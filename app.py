@@ -37,5 +37,5 @@ with app.app_context():
     import models
     db.create_all()
 
-# Import enhanced routes instead of basic routes
-from enhanced_routes import *
+# Import professional routes with full Athletic.net integration
+from professional_routes import *
