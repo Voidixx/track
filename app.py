@@ -37,5 +37,5 @@ with app.app_context():
     import models
     db.create_all()
 
-# Import routes after app creation to avoid circular imports
-from routes import *
+# Import enhanced routes instead of basic routes
+from enhanced_routes import *
