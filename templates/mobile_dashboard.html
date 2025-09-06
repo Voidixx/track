@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Tyler Messina - Elite Training Hub</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#007bff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Tyler Training">
+    
+    <!-- PWA Icons -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icon-192.png') }}">
+    
+    <!-- Modern CSS Framework -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+    
+    <!-- Chart.js and Advanced Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
+    
+    <!-- Custom App Styles -->
+    <link href="{{ url_for('static', filename='mobile_app_enhancements.css') }}" rel="stylesheet">
+    
+    <style>
+        /* Mobile App Base Styles */
+        :root {
+            --primary: #007bff;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --dark: #1a1d29;
+            --light: #f8f9fa;
+            --app-height: 100vh;
+            --bottom-nav-height: 70px;
+            --top-nav-height: 60px;
+            --safe-area-top: env(safe-area-inset-top);
+            --safe-area-bottom: env(safe-area-inset-bottom);
+        }
+        
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--light);
+            overflow-x: hidden;
+            height: var(--app-height);
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* App Layout */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: var(--app-height);
+            max-width: 100vw;
+            overflow: hidden;
+        }
+        
+        .top-nav {
+            height: calc(var(--top-nav-height) + var(--safe-area-top));
+            background: linear-gradient(135deg, var(--primary) 0%, #0056b3 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--safe-area-top) 16px 0 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: calc(var(--top-nav-height) + var(--safe-area-top) + 16px) 16px calc(var(--bottom-nav-height) + var(--safe-area-bottom) + 16px) 16px;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .bottom-nav {
+            height: calc(var(--bottom-nav-height) + var(--safe-area-bottom));
+            background: white;
+            border-top: 1px solid #e9ecef;
+            padding: 0 0 var(--safe-area-bottom) 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Modern Cards */
+        .app-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .app-card:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .card-header-modern {
+            background: linear-gradient(135deg, var(--primary) 0%, #0056b3 100%);
+            color: white;
+            padding: 20px;
+            border: none;
+        }
+        
+        .card-body-modern {
+            padding: 20px;
+        }
+        
+        /* Statistics Widgets */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .stat-card-modern {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card-modern::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--success));
+        }
+        
+        .stat-value-large {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin: 8px 0;
+            line-height: 1;
+        }
+        
+        .stat-label-modern {
+            font-size: 13px;
+            color: #6c757d;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Modern Buttons */
+        .btn-app {
+            border-radius: 12px;
+            font-weight: 600;
+            padding: 14px 24px;
+            font-size: 15px;
+            border: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .btn-app:active {
+            transform: scale(0.95);
+        }
+        
+        .btn-primary-app {
+            background: linear-gradient(135deg, var(--primary) 0%, #0056b3 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,123,255,0.3);
+        }
+        
+        .btn-success-app {
+            background: linear-gradient(135deg, var(--success) 0%, #1e7e34 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(40,167,69,0.3);
+        }
+        
+        /* Navigation Items */
+        .nav-item-modern {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 12px;
+            min-width: 60px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 12px;
+            color: #6c757d;
+        }
+        
+        .nav-item-modern.active {
+            color: var(--primary);
+            background: rgba(0,123,255,0.1);
+        }
+        
+        .nav-item-modern i {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+        
+        .nav-item-modern span {
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        /* Progress Rings */
+        .progress-ring {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+        }
+        
+        .progress-ring svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring-circle {
+            fill: none;
+            stroke-width: 6;
+            stroke-linecap: round;
+        }
+        
+        .progress-ring-bg {
+            stroke: #e9ecef;
+        }
+        
+        .progress-ring-fill {
+            stroke: var(--primary);
+            stroke-dasharray: 0 251.2;
+            transition: stroke-dasharray 0.3s ease;
+        }
+        
+        .progress-ring-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        /* Performance Charts */
+        .chart-container {
+            position: relative;
+            height: 200px;
+            margin: 16px 0;
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .quick-action {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .quick-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        .quick-action i {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+        
+        .quick-action span {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .stat-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .quick-actions {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .stat-value-large {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-content {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+            
+            .app-card {
+                margin-bottom: 12px;
+            }
+            
+            .card-body-modern {
+                padding: 16px;
+            }
+        }
+        
+        /* Loading States */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        /* Notification Badge */
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Swipe Gestures */
+        .swipeable {
+            touch-action: pan-y;
+        }
+        
+        /* Pull to Refresh */
+        .pull-to-refresh {
+            height: 0;
+            overflow: hidden;
+            transition: height 0.3s ease;
+        }
+        
+        .pull-to-refresh.active {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Navigation -->
+        <div class="top-nav">
+            <div class="d-flex align-items-center">
+                <div class="me-3">
+                    <i class="fas fa-running fs-4"></i>
+                </div>
+                <div>
+                    <div class="fw-bold">Tyler Messina</div>
+                    <div style="font-size: 12px; opacity: 0.9;">Elite Training Hub</div>
+                </div>
+            </div>
+            <div class="d-flex align-items-center">
+                <div class="position-relative me-3" id="notifications">
+                    <i class="fas fa-bell fs-5" style="cursor: pointer;"></i>
+                    <div class="notification-badge">3</div>
+                </div>
+                <div class="position-relative">
+                    <img src="https://via.placeholder.com/32x32/007bff/ffffff?text=TM" class="rounded-circle" alt="Profile">
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content" id="mainContent">
+            <!-- Pull to Refresh -->
+            <div class="pull-to-refresh" id="pullToRefresh">
+                <i class="fas fa-sync-alt fa-spin"></i>
+                <span class="ms-2">Refreshing...</span>
+            </div>
+
+            <!-- Hero Stats -->
+            <div class="stat-grid">
+                <div class="stat-card-modern">
+                    <div class="stat-value-large text-primary">45.24</div>
+                    <div class="stat-label-modern">Current PR</div>
+                    <div style="font-size: 11px; color: var(--success); margin-top: 4px;">
+                        <i class="fas fa-arrow-up"></i> Personal Best
+                    </div>
+                </div>
+                
+                <div class="stat-card-modern">
+                    <div class="stat-value-large text-warning">48.0</div>
+                    <div class="stat-label-modern">Recent Avg</div>
+                    <div style="font-size: 11px; color: var(--warning); margin-top: 4px;">
+                        <i class="fas fa-clock"></i> Working Back
+                    </div>
+                </div>
+                
+                <div class="stat-card-modern">
+                    <div class="stat-value-large text-success">42.08</div>
+                    <div class="stat-label-modern">School Record</div>
+                    <div style="font-size: 11px; color: var(--danger); margin-top: 4px;">
+                        <i class="fas fa-target"></i> -3.16s Needed
+                    </div>
+                </div>
+                
+                <div class="stat-card-modern">
+                    <div class="stat-value-large text-info">12</div>
+                    <div class="stat-label-modern">Days to Districts</div>
+                    <div style="font-size: 11px; color: var(--info); margin-top: 4px;">
+                        <i class="fas fa-calendar"></i> May 22, 2025
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <a href="#" class="quick-action" onclick="logWorkout()">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Log Workout</span>
+                </a>
+                <a href="#" class="quick-action" onclick="uploadVideo()">
+                    <i class="fas fa-video"></i>
+                    <span>Video Analysis</span>
+                </a>
+                <a href="#" class="quick-action" onclick="viewCompetitors()">
+                    <i class="fas fa-users"></i>
+                    <span>Competitors</span>
+                </a>
+                <a href="#" class="quick-action" onclick="checkWeather()">
+                    <i class="fas fa-cloud-sun" id="weatherIcon"></i>
+                    <span>Weather</span>
+                </a>
+                <a href="#" class="quick-action" onclick="viewCalendar()">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Calendar</span>
+                </a>
+                <a href="#" class="quick-action" onclick="messageCoach()">
+                    <i class="fas fa-comments"></i>
+                    <span>Coach</span>
+                </a>
+            </div>
+
+            <!-- Today's Workout Card -->
+            <div class="app-card">
+                <div class="card-header-modern">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-1">Today's Training</h6>
+                            <small id="todayDate"></small>
+                        </div>
+                        <div class="progress-ring">
+                            <svg>
+                                <circle class="progress-ring-circle progress-ring-bg" cx="40" cy="40" r="36"></circle>
+                                <circle class="progress-ring-circle progress-ring-fill" cx="40" cy="40" r="36" id="workoutProgress"></circle>
+                            </svg>
+                            <div class="progress-ring-text" id="progressText">0%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body-modern">
+                    <div id="todayWorkout">
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-bolt text-warning me-2"></i>
+                            <span class="fw-bold">Speed Endurance</span>
+                        </div>
+                        <p class="mb-3">5 x 200m at race pace with 90s rest. Focus on maintaining form under fatigue.</p>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-primary-app flex-fill" onclick="startWorkout()">
+                                <i class="fas fa-play"></i> Start
+                            </button>
+                            <button class="btn btn-success-app" onclick="completeWorkout()" style="opacity: 0.5;" disabled id="completeBtn">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Chart -->
+            <div class="app-card">
+                <div class="card-header-modern">
+                    <h6 class="mb-0">Performance Progression</h6>
+                </div>
+                <div class="card-body-modern">
+                    <div class="chart-container">
+                        <canvas id="progressChart"></canvas>
+                    </div>
+                    <div class="text-center mt-3">
+                        <small class="text-muted">Last 8 races • Trending toward PR form</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Competitor Insights -->
+            <div class="app-card">
+                <div class="card-header-modern">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0">District 10 Rankings</h6>
+                        <span class="badge bg-warning">Live</span>
+                    </div>
+                </div>
+                <div class="card-body-modern">
+                    <div class="competitor-list">
+                        <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                            <div class="d-flex align-items-center">
+                                <div class="badge bg-warning rounded-pill me-2">1</div>
+                                <div>
+                                    <div class="fw-bold">Alex Rodriguez</div>
+                                    <small class="text-muted">Northwestern HS</small>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <div class="fw-bold text-success">43.95</div>
+                                <small class="text-muted">PR</small>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                            <div class="d-flex align-items-center">
+                                <div class="badge bg-secondary rounded-pill me-2">2</div>
+                                <div>
+                                    <div class="fw-bold">Marcus Thompson</div>
+                                    <small class="text-muted">Corry HS</small>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <div class="fw-bold text-success">44.82</div>
+                                <small class="text-muted">PR</small>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center py-2 border-bottom bg-light rounded">
+                            <div class="d-flex align-items-center">
+                                <div class="badge bg-primary rounded-pill me-2">3</div>
+                                <div>
+                                    <div class="fw-bold">Tyler Messina</div>
+                                    <small class="text-muted">Union City HS</small>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <div class="fw-bold text-primary">45.24</div>
+                                <small class="text-muted">PR</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <button class="btn btn-primary-app btn-sm" onclick="viewAllCompetitors()">
+                            View All Rankings
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weather & Training Recommendation -->
+            <div class="app-card">
+                <div class="card-header-modern">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 class="mb-0">Union City Weather</h6>
+                        <span id="weatherTemp">61°F</span>
+                    </div>
+                </div>
+                <div class="card-body-modern">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="fw-bold mb-1" id="weatherCondition">Scattered Clouds</div>
+                            <small class="text-muted">Perfect for outdoor training</small>
+                        </div>
+                        <div class="text-center">
+                            <i class="fas fa-cloud-sun fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-4 text-center">
+                            <small class="text-muted">Humidity</small>
+                            <div class="fw-bold">73%</div>
+                        </div>
+                        <div class="col-4 text-center">
+                            <small class="text-muted">Wind</small>
+                            <div class="fw-bold">2 mph</div>
+                        </div>
+                        <div class="col-4 text-center">
+                            <small class="text-muted">Feels Like</small>
+                            <div class="fw-bold">59°F</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="app-card">
+                <div class="card-header-modern">
+                    <h6 class="mb-0">Recent Activity</h6>
+                </div>
+                <div class="card-body-modern">
+                    <div class="activity-list">
+                        <div class="d-flex align-items-center py-2">
+                            <div class="rounded-circle bg-success d-flex align-items-center justify-content-center me-3" style="width: 32px; height: 32px;">
+                                <i class="fas fa-check text-white"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold">Completed Speed Endurance</div>
+                                <small class="text-muted">Yesterday • 5 x 200m intervals</small>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center py-2">
+                            <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" style="width: 32px; height: 32px;">
+                                <i class="fas fa-video text-white"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold">Uploaded Form Video</div>
+                                <small class="text-muted">2 days ago • AI analysis complete</small>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center py-2">
+                            <div class="rounded-circle bg-warning d-flex align-items-center justify-content-center me-3" style="width: 32px; height: 32px;">
+                                <i class="fas fa-trophy text-white"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold">New PR: 45.24s</div>
+                                <small class="text-muted">1 week ago • District meet</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item-modern active" onclick="switchTab('dashboard')">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </div>
+            <div class="nav-item-modern" onclick="switchTab('training')">
+                <i class="fas fa-dumbbell"></i>
+                <span>Training</span>
+            </div>
+            <div class="nav-item-modern" onclick="switchTab('analytics')">
+                <i class="fas fa-chart-line"></i>
+                <span>Analytics</span>
+            </div>
+            <div class="nav-item-modern" onclick="switchTab('competitors')">
+                <i class="fas fa-users"></i>
+                <span>Rivals</span>
+            </div>
+            <div class="nav-item-modern" onclick="switchTab('profile')">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // App Initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            loadWeatherData();
+            createProgressChart();
+            setupPullToRefresh();
+            updateDateTime();
+            setInterval(updateDateTime, 60000); // Update every minute
+        });
+
+        function initializeApp() {
+            console.log('Tyler Training App Initialized');
+            
+            // Set today's date
+            const today = new Date();
+            document.getElementById('todayDate').textContent = today.toLocaleDateString('en-US', {
+                weekday: 'long',
+                month: 'short',
+                day: 'numeric'
+            });
+            
+            // Set progress ring
+            updateProgressRing(65);
+            
+            // Check if app is running as PWA
+            if (window.matchMedia('(display-mode: standalone)').matches) {
+                console.log('Running as PWA');
+            }
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            document.getElementById('todayDate').textContent = now.toLocaleDateString('en-US', {
+                weekday: 'long',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        function updateProgressRing(percentage) {
+            const circle = document.getElementById('workoutProgress');
+            const text = document.getElementById('progressText');
+            const circumference = 2 * Math.PI * 36;
+            const offset = circumference - (percentage / 100) * circumference;
+            
+            circle.style.strokeDasharray = `${circumference}`;
+            circle.style.strokeDashoffset = offset;
+            text.textContent = `${percentage}%`;
+        }
+
+        function createProgressChart() {
+            const ctx = document.getElementById('progressChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'],
+                    datasets: [{
+                        label: '300m Hurdles Times',
+                        data: [48.41, 47.92, 47.15, 46.48, 45.24, 48.15, 47.92, 48.00],
+                        borderColor: '#007bff',
+                        backgroundColor: 'rgba(0,123,255,0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 42,
+                            max: 50,
+                            grid: { display: false },
+                            ticks: { font: { size: 11 } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { size: 11 } }
+                        }
+                    },
+                    elements: {
+                        point: { radius: 4, hoverRadius: 6 }
+                    }
+                }
+            });
+        }
+
+        function loadWeatherData() {
+            fetch('/api/weather')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.condition) {
+                        updateWeatherDisplay(data);
+                    }
+                })
+                .catch(error => console.log('Weather data loaded from cache'));
+        }
+
+        function updateWeatherDisplay(weather) {
+            document.getElementById('weatherCondition').textContent = 
+                weather.condition.charAt(0).toUpperCase() + weather.condition.slice(1);
+            document.getElementById('weatherTemp').textContent = `${weather.temperature || 61}°F`;
+            
+            // Update weather icon
+            const iconMap = {
+                'clear': 'fa-sun',
+                'partly_cloudy': 'fa-cloud-sun',
+                'cloudy': 'fa-cloud',
+                'rain': 'fa-cloud-rain'
+            };
+            const icon = iconMap[weather.condition] || 'fa-cloud-sun';
+            document.getElementById('weatherIcon').className = `fas ${icon}`;
+        }
+
+        function setupPullToRefresh() {
+            let startY = 0;
+            let pullDistance = 0;
+            const threshold = 100;
+            const mainContent = document.getElementById('mainContent');
+            const pullToRefresh = document.getElementById('pullToRefresh');
+
+            mainContent.addEventListener('touchstart', function(e) {
+                if (mainContent.scrollTop === 0) {
+                    startY = e.touches[0].clientY;
+                }
+            });
+
+            mainContent.addEventListener('touchmove', function(e) {
+                if (startY && mainContent.scrollTop === 0) {
+                    pullDistance = e.touches[0].clientY - startY;
+                    if (pullDistance > 0) {
+                        e.preventDefault();
+                        pullToRefresh.style.height = `${Math.min(pullDistance / 2, 60)}px`;
+                        if (pullDistance > threshold) {
+                            pullToRefresh.classList.add('active');
+                        }
+                    }
+                }
+            });
+
+            mainContent.addEventListener('touchend', function() {
+                if (pullDistance > threshold) {
+                    refreshData();
+                }
+                pullDistance = 0;
+                startY = 0;
+                pullToRefresh.style.height = '0';
+                pullToRefresh.classList.remove('active');
+            });
+        }
+
+        function refreshData() {
+            // Simulate data refresh
+            setTimeout(() => {
+                loadWeatherData();
+                showNotification('Data refreshed!', 'success');
+            }, 1000);
+        }
+
+        // Navigation Functions
+        function switchTab(tab) {
+            // Remove active class from all nav items
+            document.querySelectorAll('.nav-item-modern').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Add active class to clicked item
+            event.currentTarget.classList.add('active');
+            
+            // Handle tab content switching
+            switch(tab) {
+                case 'dashboard':
+                    window.location.href = '/';
+                    break;
+                case 'training':
+                    window.location.href = '/log_workout';
+                    break;
+                case 'analytics':
+                    window.location.href = '/statistics';
+                    break;
+                case 'competitors':
+                    window.location.href = '/competitor-intelligence';
+                    break;
+                case 'profile':
+                    window.location.href = '/personal_records';
+                    break;
+            }
+        }
+
+        // Action Functions
+        function logWorkout() {
+            window.location.href = '/log_workout';
+        }
+
+        function uploadVideo() {
+            window.location.href = '/video_analysis';
+        }
+
+        function viewCompetitors() {
+            window.location.href = '/competitor-intelligence';
+        }
+
+        function checkWeather() {
+            loadWeatherData();
+            showNotification('Weather updated!', 'info');
+        }
+
+        function viewCalendar() {
+            window.location.href = '/advanced-analytics';
+        }
+
+        function messageCoach() {
+            window.location.href = '/coach_communication';
+        }
+
+        function startWorkout() {
+            const btn = event.target;
+            btn.innerHTML = '<i class="fas fa-clock"></i> In Progress';
+            btn.disabled = true;
+            document.getElementById('completeBtn').disabled = false;
+            document.getElementById('completeBtn').style.opacity = '1';
+            updateProgressRing(25);
+        }
+
+        function completeWorkout() {
+            updateProgressRing(100);
+            showNotification('Workout completed! Great job!', 'success');
+            document.getElementById('completeBtn').innerHTML = '<i class="fas fa-check"></i> Done';
+        }
+
+        function viewAllCompetitors() {
+            window.location.href = '/competitor-intelligence';
+        }
+
+        // Utility Functions
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type} position-fixed`;
+            notification.style.cssText = `
+                top: calc(var(--top-nav-height) + var(--safe-area-top) + 16px);
+                left: 16px;
+                right: 16px;
+                z-index: 1050;
+                border-radius: 12px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // PWA Installation
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            showInstallBanner();
+        });
+
+        function showInstallBanner() {
+            const banner = document.createElement('div');
+            banner.innerHTML = `
+                <div class="alert alert-primary d-flex justify-content-between align-items-center">
+                    <span>Install Tyler Training App</span>
+                    <button class="btn btn-sm btn-primary" onclick="installApp()">Install</button>
+                </div>
+            `;
+            document.getElementById('mainContent').prepend(banner);
+        }
+
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((result) => {
+                    deferredPrompt = null;
+                });
+            }
+        }
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/static/sw.js')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>

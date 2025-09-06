@@ -45,8 +45,13 @@ def get_daily_workout():
             "indoor_workout": "Mobility and flexibility routine"
         }
 
-@app.route('/professional')
+@app.route('/mobile')
 @app.route('/')
+def mobile_dashboard():
+    """New mobile-first dashboard - Default Route"""
+    return render_template('mobile_dashboard.html')
+
+@app.route('/professional')
 def professional_dashboard():
     """Main professional dashboard with comprehensive analytics"""
     try:
