@@ -1,0 +1,182 @@
+{
+  "daily_workouts": [
+    {
+      "day": 1,
+      "focus": "Speed Endurance",
+      "outdoor_workout": "Warm-up: 10min easy jog + dynamic stretching. Main: 4x200m hurdles rhythm (13-15-16 steps), 90% effort, 3min rest. Cool down: 10min easy jog + static stretching.",
+      "indoor_workout": "Warm-up: 5min jumping jacks + dynamic stretching. Main: 4x30sec high knees, 4x30sec butt kicks, 4x10 jump squats, hurdle wall drills (20 each leg). Cool down: stretching routine."
+    },
+    {
+      "day": 2,
+      "focus": "Strength Training",
+      "outdoor_workout": "Warm-up: 800m easy jog. Main: Single-leg squats 3x12, Bulgarian split squats 3x10 each, box jumps 3x8, hurdle mobility sequence. Cool down: foam rolling.",
+      "indoor_workout": "Warm-up: 5min bodyweight cardio. Main: Bodyweight squats 3x15, lunges 3x12 each, wall sits 3x45sec, plank variations 3x30sec, hurdle flexibility routine."
+    },
+    {
+      "day": 3,
+      "focus": "Technique Work",
+      "outdoor_workout": "Warm-up: 10min jog + hurdle mobility. Main: Chair hurdle drills 3x10 each leg, cone rhythm work (7-8m apart), shadow hurdling 3x50m. Cool down: hip flexor stretching.",
+      "indoor_workout": "Warm-up: Dynamic stretching routine. Main: Chair/broomstick lead-leg drills 3x15, trail-leg wall drives 3x12, pogo hops 3x20, shuttle runs 4x10m."
+    },
+    {
+      "day": 4,
+      "focus": "Active Recovery",
+      "outdoor_workout": "20-30min easy jog, focus on relaxed running form. 15min dynamic stretching and mobility work. Optional: light core strengthening.",
+      "indoor_workout": "20min yoga flow or stretching routine. Light core work: planks, side planks, dead bugs. Hip flexor and hamstring focus stretching."
+    },
+    {
+      "day": 5,
+      "focus": "Speed Development",
+      "outdoor_workout": "Warm-up: 12min progressive jog + drills. Main: 6x60m sprints at 95%, focus on first 3 steps explosive, 4min rest. Cool down: easy jog + stretching.",
+      "indoor_workout": "Warm-up: 8min dynamic movement. Main: 8x10sec max effort in place running, 6x5 explosive push-ups, 4x8 broad jumps, agility ladder work if available."
+    },
+    {
+      "day": 6,
+      "focus": "Race Simulation",
+      "outdoor_workout": "Warm-up: 15min including strides. Main: 2x300m hurdles at race pace (target: sub-45s), focus on step patterns 13-15-16-17, 8min recovery. Cool down: extensive stretching.",
+      "indoor_workout": "Warm-up: Extended dynamic routine. Main: 4x45sec tempo runs in place, hurdle form practice (no hurdles), step pattern visualization, core finisher circuit."
+    },
+    {
+      "day": 7,
+      "focus": "Long Recovery",
+      "outdoor_workout": "30-40min easy aerobic run, conversational pace. Include 2x4min tempo pickups. Finish with 20min comprehensive stretching and foam rolling.",
+      "indoor_workout": "45min yoga or pilates session. Focus on flexibility, core stability, and mental recovery. Include meditation or visualization of race performance."
+    }
+  ],
+  "form_drills": [
+    {
+      "name": "Lead-Leg Snap Overs",
+      "description": "Using a chair or broomstick as a hurdle, practice the lead leg motion",
+      "steps": [
+        "Set up chair or broomstick at hip height",
+        "Stand 2 steps back from obstacle",
+        "Drive knee up and over, keeping toe flexed",
+        "Snap leg down fast and straight",
+        "Focus on quick ground contact",
+        "Repeat 10-15 times each leg"
+      ],
+      "key_points": "Keep shoulders square, maintain forward lean, quick ground contact"
+    },
+    {
+      "name": "Trail-Leg Wall Drives",
+      "description": "Practice trail leg technique using a wall for support",
+      "steps": [
+        "Stand arm's length from wall, facing sideways",
+        "Place hand on wall for balance",
+        "Lift outside leg into hurdle trail position",
+        "Drive knee forward and up",
+        "Keep foot turned out, knee high",
+        "Practice the cycling motion smoothly"
+      ],
+      "key_points": "High knee drive, foot turned out, smooth cycling motion"
+    },
+    {
+      "name": "Cone Rhythm Drills",
+      "description": "Set up cones to practice step patterns between hurdles",
+      "steps": [
+        "Place cones 7-8 meters apart (simulating hurdle spacing)",
+        "Practice 13 steps between first cones (early race)",
+        "Practice 15 steps between middle cones",
+        "Practice 16-17 steps between final cones (fatigue pattern)",
+        "Focus on maintaining rhythm and speed",
+        "Use tape indoors if no space for cones"
+      ],
+      "key_points": "Consistent rhythm, maintain speed, practice all step patterns"
+    },
+    {
+      "name": "Shadow Hurdling",
+      "description": "Practice full hurdling motion without actual hurdles",
+      "steps": [
+        "Set up phone to record side view",
+        "Mark spots where hurdles would be",
+        "Run through practicing hurdle technique",
+        "Film yourself for form analysis",
+        "Check for proper lead leg snap, trail leg drive",
+        "Look for smooth rhythm between hurdles"
+      ],
+      "key_points": "Focus on technique, film for analysis, practice race rhythm"
+    },
+    {
+      "name": "Hip Mobility Drills",
+      "description": "Essential flexibility work for hurdle technique",
+      "steps": [
+        "Leg swings: front-to-back and side-to-side (10 each)",
+        "Walking high knees (20 steps)",
+        "Walking butt kicks (20 steps)",
+        "Lunge with twist (8 each side)",
+        "Hurdle sit stretches (hold 30sec each)",
+        "Hip flexor stretches (hold 45sec each)"
+      ],
+      "key_points": "Daily practice, gradual range increase, no bouncing"
+    }
+  ],
+  "step_patterns": [
+    {
+      "phase": "Early Race (Hurdles 1-3)",
+      "steps": "13 steps between hurdles",
+      "description": "Fresh legs, optimal power and speed",
+      "practice_tips": [
+        "Set cones 7.32m apart (exact hurdle spacing)",
+        "Focus on explosive start and maintaining speed",
+        "Practice race-pace sprinting with 13 steps",
+        "Work on consistent step length"
+      ]
+    },
+    {
+      "phase": "Mid Race (Hurdles 4-6)",
+      "steps": "15 steps between hurdles",
+      "description": "Slight fatigue setting in, adjust rhythm",
+      "practice_tips": [
+        "Practice transitioning from 13 to 15 steps smoothly",
+        "Maintain hurdle technique while adjusting stride",
+        "Focus on efficient energy use",
+        "Work on relaxed running between hurdles"
+      ]
+    },
+    {
+      "phase": "Late Race (Hurdles 7-8)",
+      "steps": "16-17 steps between hurdles",
+      "description": "Significant fatigue, survival mode",
+      "practice_tips": [
+        "Practice when already tired from previous work",
+        "Focus on maintaining hurdle technique when fatigued",
+        "Work on mental toughness and push through",
+        "Practice finishing strong despite step pattern change"
+      ]
+    },
+    {
+      "phase": "Indoor Practice Setup",
+      "steps": "Use tape on floor",
+      "description": "Simulate hurdle spacing indoors",
+      "practice_tips": [
+        "Measure 7.32m and mark with tape",
+        "Practice step counting without actual hurdles",
+        "Focus on consistent rhythm and timing",
+        "Use visualization of actual hurdles",
+        "Can practice in hallways or large rooms"
+      ]
+    }
+  ],
+  "progression_goals": [
+    {
+      "timeframe": "Current Status",
+      "target_time": "47-48 seconds",
+      "notes": "Post hip flexor injury, building back fitness and confidence"
+    },
+    {
+      "timeframe": "End of 10th Grade (Spring 2025)",
+      "target_time": "44-45 seconds",
+      "notes": "Full recovery, improved technique, consistent training base"
+    },
+    {
+      "timeframe": "End of 11th Grade (Spring 2026)",
+      "target_time": "43 seconds low",
+      "notes": "Peak physical development, refined technique, race experience"
+    },
+    {
+      "timeframe": "Senior Year Goal (Spring 2027)",
+      "target_time": "42.08 seconds or faster",
+      "notes": "BREAK THE SCHOOL RECORD! Peak performance, perfect technique execution"
+    }
+  ]
+}

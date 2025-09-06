@@ -1,0 +1,293 @@
+/* Tyler's 300m Hurdles Training Hub - Custom Styles */
+
+:root {
+    --primary-color: #FF6B35;
+    --secondary-color: #004E89;
+    --accent-color: #FFD23F;
+    --success-color: #06D6A0;
+    --text-dark: #1A1A1A;
+    --text-light: #666;
+    --bg-light: #F8F9FA;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: var(--text-dark);
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    margin: 0 -15px;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hero-section h1 {
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: white;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+    color: white;
+    border-radius: 15px 15px 0 0 !important;
+    border: none;
+    font-weight: 600;
+    padding: 1.25rem;
+}
+
+/* Workout Card */
+.workout-card {
+    border-left: 5px solid var(--primary-color);
+}
+
+.workout-card .card-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+    color: var(--text-dark);
+}
+
+.weather-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.weather-badge i {
+    font-size: 1.2em;
+}
+
+/* Drill Cards */
+.drill-card {
+    border-left: 4px solid var(--success-color);
+}
+
+.drill-card .card-header {
+    background: linear-gradient(135deg, var(--success-color) 0%, #00b894 100%);
+}
+
+/* Pattern Cards */
+.pattern-card {
+    border-left: 4px solid var(--accent-color);
+}
+
+.pattern-card .card-header {
+    background: linear-gradient(135deg, var(--accent-color) 0%, #f39c12 100%);
+    color: var(--text-dark);
+}
+
+/* Goals Card */
+.goals-card {
+    border: 3px solid var(--primary-color);
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+}
+
+.goals-card .card-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+}
+
+.goal-item {
+    background: white;
+    border-radius: 10px;
+    border: 2px solid var(--bg-light);
+    transition: all 0.3s ease;
+}
+
+.goal-item:hover {
+    border-color: var(--primary-color);
+    transform: scale(1.02);
+}
+
+.goal-time {
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.goal-timeframe {
+    color: var(--secondary-color);
+    font-weight: 600;
+}
+
+/* Section Titles */
+.section-title {
+    color: var(--secondary-color);
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+    border-radius: 2px;
+}
+
+.section-title i {
+    margin-right: 10px;
+    color: var(--primary-color);
+}
+
+/* Progress Bar */
+.progress {
+    background-color: #e9ecef;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background: linear-gradient(135deg, var(--success-color) 0%, var(--primary-color) 100%);
+    font-weight: 600;
+    border-radius: 15px;
+}
+
+/* Badges */
+.badge {
+    font-size: 0.9em;
+    padding: 8px 12px;
+    border-radius: 20px;
+}
+
+.bg-success {
+    background: linear-gradient(135deg, var(--success-color) 0%, #00b894 100%) !important;
+}
+
+.bg-warning {
+    background: linear-gradient(135deg, var(--accent-color) 0%, #f39c12 100%) !important;
+    color: var(--text-dark) !important;
+}
+
+.bg-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%) !important;
+}
+
+/* Alerts */
+.alert {
+    border: none;
+    border-radius: 10px;
+    border-left: 4px solid;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+    border-left-color: #17a2b8;
+    color: #0c5460;
+}
+
+.alert-light {
+    background: var(--bg-light);
+    border-left-color: var(--primary-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+    
+    .goal-item {
+        margin-bottom: 1rem;
+    }
+    
+    .weather-badge {
+        flex-direction: column;
+        gap: 5px;
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-section h1 {
+        font-size: 1.75rem;
+    }
+    
+    .card-header h2 {
+        font-size: 1.25rem;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* Animation for cards */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: slideInUp 0.6s ease forwards;
+}
+
+.card:nth-child(2) { animation-delay: 0.1s; }
+.card:nth-child(3) { animation-delay: 0.2s; }
+.card:nth-child(4) { animation-delay: 0.3s; }
+
+/* Footer */
+footer {
+    background: linear-gradient(135deg, var(--text-dark) 0%, #2c3e50 100%) !important;
+}
+
+/* Lists */
+ol, ul {
+    padding-left: 1.2rem;
+}
+
+ol li, ul li {
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+/* Text styling */
+.text-primary {
+    color: var(--primary-color) !important;
+}
+
+.lead {
+    font-size: 1.1rem;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+/* Container spacing */
+.container {
+    padding: 0 15px;
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+}
