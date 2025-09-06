@@ -9,7 +9,7 @@ def get_weather_condition():
     """
     try:
         api_key = os.getenv("OPENWEATHER_API_KEY", "demo_key")
-        city = "San Diego"  # Tyler's location (UCASD)
+        city = "Union City,PA"  # Tyler's location in Pennsylvania
         
         if api_key == "demo_key":
             logging.warning("Using demo weather data - no API key provided")
