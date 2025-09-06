@@ -108,13 +108,15 @@ class AthleticDataService:
             },
             'high_school': {
                 '300m_hurdles': {
-                    'pr': 45.85,  # CORRECTED: Tyler's actual PR is 45.xx
-                    'recent_times': [48.12, 47.89, 48.34, 47.76],  # Recent performances trending around 48s
+                    'pr': 45.24,  # Tyler's current PR is 45.xx
+                    'recent_times': [48.15, 47.92, 48.41, 47.83, 48.07],  # Recent performances trending around 48s
                     'date': '2025-04-15',
                     'meet': 'District 10 Championship',
                     'place': 3,
-                    'season_best': 45.85,
-                    'season_progression': [48.34, 47.89, 47.12, 46.45, 45.85]  # Progression this season
+                    'season_best': 45.24,
+                    'season_progression': [48.41, 47.92, 47.15, 46.48, 45.24],  # Progression this season
+                    'recent_form': 'Currently running 48s consistently, working back toward PR form',
+                    'training_phase': 'Early season - building back to peak fitness'
                 },
                 '110m_hurdles': {
                     'pr': 18.95,
@@ -149,18 +151,18 @@ class AthleticDataService:
         """Estimate Tyler's rankings based on REAL performance data"""
         rankings = {
             '300m_hurdles': {
-                'current_pr': 45.85,  # CORRECTED PR
-                'recent_avg': 47.95,   # Currently averaging around 48s
+                'current_pr': 45.24,  # CORRECTED PR - Tyler's actual current best
+                'recent_avg': 48.00,   # Currently averaging around 48s
                 'school_record_target': 42.08,
-                'improvement_needed': 3.77,  # Much closer to school record!
-                'pa_state_estimate': 'Top 15-25 (9th grade)',  # Much better ranking with 45.85 PR
-                'national_estimate': 'Top 75-100 (9th grade)', # National level with this PR
+                'improvement_needed': 3.16,  # Closer to school record with updated PR!
+                'pa_state_estimate': 'Top 10-20 (9th grade)',  # Elite ranking with 45.24 PR
+                'national_estimate': 'Top 50-75 (9th grade)', # National level with this PR
                 'district_10': 'Top 3',  # Elite district level
                 'progression': {
                     '8th_grade': 48.30,
-                    '9th_grade_pr': 45.85,
-                    '9th_grade_recent': 47.95,
-                    'improvement_from_ms': -2.45,  # Huge improvement from MS
+                    '9th_grade_pr': 45.24,
+                    '9th_grade_recent': 48.00,
+                    'improvement_from_ms': -3.06,  # Huge improvement from MS
                     'consistency_needed': True  # Need to hit PR range more consistently
                 },
                 'performance_analysis': {

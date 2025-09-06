@@ -8,10 +8,10 @@ def get_weather_condition():
     Returns: 'clear', 'partly_cloudy', 'cloudy', 'rain', 'snow', or 'unknown'
     """
     try:
-        api_key = os.getenv("OPENWEATHER_API_KEY", "demo_key")
-        city = "Union City,PA"  # Tyler's location in Pennsylvania
+        api_key = os.getenv("OPENWEATHER_API_KEY", "d2743b8f013c5c08e2c6f64a06f19780")
+        city = "Union City,PA,US"  # Tyler's location in Pennsylvania
         
-        if api_key == "demo_key":
+        if not api_key or api_key == "demo_key":
             logging.warning("Using demo weather data - no API key provided")
             # Return a default condition for demo purposes
             return "clear"
